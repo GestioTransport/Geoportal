@@ -28,7 +28,7 @@
                html, body, #mapid {
                     height: 100%;
                }
-               #botonera {}
+               
           </style> 
      </head>
 
@@ -43,7 +43,7 @@
           <!-- CREEM EL PANELL DE SELECCIÓ -->
           <div align="center" style="text-align:center">
                <label>Visualitza per Població</label>
-               <select id="Població" onchange="estilPoblacio()">
+               <select id="Població" onchange="poblacio()">
                     <option value="NETEJA"></option>
                     <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
                     <script>
@@ -64,7 +64,7 @@
                </select>
                
                <label>Visualitza per Operador</label>
-               <select id="Operador" onchange="colorPerOperador()">
+               <select id="Operador" onchange="operadors()">
                     <option value="NETEJA"></option>
                     <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
                     <script>
@@ -85,7 +85,7 @@
                      
                </select>
                <label>Visualitza per Zona OAC</label>
-               <select id="Zona_OAC" >
+               <select id="Zona_OAC" onchange = "zones()">
                     <option value="NETEJA"></option>
                     <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
                     <script>
@@ -186,56 +186,143 @@
                          }
                }
 
-               function colorPerOperadors(d) { 
-					return d == "Transports Mir" ? 'lavender' : 
+               function colorPerOperador(d) { 
+					return d == "Transports Mir" ? '#ABD71E' : 
 					d == "TUS" ? 'maroon' : 
 					d == "TEISA-Hispano Hilarienca" ? 'springgreen' : 
 					d == "Autocars Vendrell" ? 'palegreen' :
-                         d == "Monbús" ? 'navajowhite' :
-                         d == "Tusgsal" ? 'sandybrown' :
-                         d == "Transports Pujol i Pujol" ? 'silver' :
-                         d == "Transports Mir" ? 'antiquewhite' :
-                         d == "TRAM" ? 'deeppink' :
-                         d == "Tmesa" ? 'fuchsia' :
-                         d == "TMB" ? 'lime' :
-                         d == "TCC-Authosa" ? 'olive' :
-                         d == "Soler i sauret, Molins Bus, SantVi bus, ValldoreixBus" ? 'chocolate' :
-                         d == "Sarbus" ? 'brown' :
-                         d == "Renfe" ? 'goldenrod' :
-                         d == "Martí Colomer" ? 'chocolate' :
-                         d == "Jordi Comasòlivas" ? 'bisque' :
-                         d == "Hispano Llacunense" ? 'darkslategray' :
-                         d == "Hispano Igualadina Monbus-Paral lel el Port UTE" ? 'pink' :
-                         d == "'Grup TGO-Masats Transports Generals-Autos Castellbisbal" ? 'darkviolet' :
-                         d == "Grup Sagales" ? 'indigo' :
-                         d == "Germans Montferri" ? 'violet' :
-                         d == "FGC" ? '	navy' :
-                         d == "CTSA - Mataró Bus i Rubi bus" ? 'steelblue' :
-                         d == "CENTRE T-MOBILITAT" ? '	lightseagreen' :
-                         d == "Bus Castellví" ? 'aqua' :
-                         d == "Baixbus" ? 'aquamarine' :
-                         d == "Autocorb" ? 'red' :
-                         d == "Autocars Rovira" ? 'orange' :
-                         d == "Autocars R.Font" ? 'yellow' :
-                         d == "Autocars Prat" ? 'green' :
-                         d == "Autocars Julià" ? 'blue' :
-                         d == "AMB" ? 'gray' :
-                         d == "Alsina Graells/ALSA" ? 'grey' :
-								'black'; 
+                    d == "Monbús" ? 'navajowhite' :
+                    d == "Tusgsal" ? 'sandybrown' :
+                    d == "Transports Pujol i Pujol" ? 'silver' :
+                    d == "Transports Mir" ? 'antiquewhite' :
+                    d == "TRAM" ? 'deeppink' : 
+                    d == "Tmesa" ? 'fuchsia' :
+                    d == "TMB" ? 'lime' :
+                    d == "TCC-Authosa" ? 'olive' :
+                    d == "Soler i sauret, Molins Bus, SantVi bus, ValldoreixBus" ? 'chocolate' :
+                    d == "Sarbus" ? 'brown' :
+                    d == "Renfe" ? 'goldenrod' :
+                    d == "Martí Colomer" ? 'chocolate' :
+                    d == "Jordi Comasòlivas" ? 'bisque' :
+                    d == "Hispano Llacunense" ? 'darkslategray' :
+                    d == "Hispano Igualadina Monbus-Paral lel el Port UTE" ? 'pink' :
+                    d == "'Grup TGO-Masats Transports Generals-Autos Castellbisbal" ? 'darkviolet' :
+                    d == "Grup Sagales" ? 'indigo' :
+                    d == "Germans Montferri" ? 'violet' :
+                    d == "FGC" ? '	navy' :
+                    d == "CTSA - Mataró Bus i Rubi bus" ? 'steelblue' :
+                    d == "CENTRE T-MOBILITAT" ? '	lightseagreen' :
+                    d == "Bus Castellví" ? 'aqua' :
+                    d == "Baixbus" ? 'aquamarine' :
+                    d == "Autocorb" ? 'red' :
+                    d == "Autocars Rovira" ? 'orange' :
+                    d == "Autocars R.Font" ? 'yellow' :
+                    d == "Autocars Prat" ? 'green' :
+                    d == "Autocars Julià" ? 'blue' :
+                    d == "AMB" ? 'gray' :
+                    d == "Alsina Graells/ALSA" ? 'grey' :
+                        'black'; 
                };
+
+               function colorPerPoblacio (d) {
+              
+                    return d == "Arenys de Munt" ? '#ABD71E' : 
+					d == "Badalona" ? 'maroon' : 
+					d == "Banyoles" ? 'springgreen' : 
+					d == "Barcelona" ? 'palegreen' :
+                    d == "Barcelona - El clot" ? 'navajowhite' :
+                    d == "Barcelona - La Sagrera" ? 'sandybrown' :
+                    d == "Barcelona - Passeig de Gràcia" ? 'silver' :
+                    d == "Berga" ? 'antiquewhite' :
+                    d == "Blanes" ? 'deeppink' : 
+                    d == "Calafell" ? 'fuchsia' :
+                    d == "Caldes de Montbui" ? 'lime' :
+                    d == "Camprodon" ? 'olive' :
+                    d == "Capellades" ? 'chocolate' :
+                    d == "Castellbisbal" ? 'brown' :
+                    d == "Cerdanyola" ? 'goldenrod' :
+                    d == "Corbera" ? 'chocolate' :
+                    d == "Gavà" ? 'bisque' :
+                    d == "Girona" ? 'darkslategray' :
+                    d == "Granollers" ? 'pink' :
+                    d == "L'Hospitalet de Llobregat" ? 'darkviolet' :
+                    d == "Igualada" ? 'indigo' :
+                    d == "Les Masies de Voltregà" ? 'violet' :
+                    d == "Lloret de Mar" ? '	navy' :
+                    d == "Malgrat de Mar" ? 'steelblue' :
+                    d == "Manresa" ? '	lightseagreen' :
+                    d == "Martorell" ? 'aqua' :
+                    d == "Mataró" ? 'aquamarine' :
+                    d == "Mollet del Vallès" ? 'red' :
+                    d == "Olesa de montserrat" ? 'orange' :
+                    d == "Olot" ? 'yellow' :
+                    d == "Ripoll" ? 'green' :
+                    d == "Ripollet" ? 'blue' :
+                    d == "Rubí" ? 'gray' :
+                    d == "Sabadell" ? 'grey' :
+                    d == "Sant Adrià de Besòs" ? '#0B0582' :
+                    d == "Sant Celoni" ? '#4C488D' :
+                    d == "Sant Feliu de Llobregat" ? '#1EC1B6' :
+                    d == "Sant Joan Despí" ? '#67AD6D' :
+                    d == "Sant Pere de Ribes" ? '#ABD71E' :
+                    d == "Sant Sadurní d'Anoia" ? '#D77D1E' :
+                    d == "Sant Vicenç de Calders" ? '#5A7D4C' :
+                    d == "Santa Margarida i els Monjos" ? '#8B64CA' :
+                    d == "Taradell" ? '#8F2359' :
+                    d == "Terrassa" ? '#AA6B6B' :
+                    d == "Vic" ? '#23ACD5' :
+                    d == "Viladecans" ? '#86C184' :
+                    d == "Vilafranca del Penedès" ? '#1A6370' :
+                    d == "Vilanova i la Geltrú" ? '#8CCC22' :
+                        'black'; 
+ 
+               };
+
+            function colorPerZona (d) {
+          
+                return d == "-" ? '#8CCC22' :
+                d == "1" ? 'pink' :
+                d == "2B" ? 'maroon' : 
+                d == "2C" ? 'springgreen' : 
+                d == "2D" ? 'palegreen' :
+                d == "3A - El clot" ? 'navajowhite' :
+                d == "3B - La Sagrera" ? 'sandybrown' :
+                d == "3C - Passeig de Gràcia" ? 'silver' :
+                d == "3D" ? 'antiquewhite' :
+                d == "3E" ? 'deeppink' : 
+                d == "4A" ? 'fuchsia' :
+                d == "4B" ? 'lime' :
+                d == "4G" ? 'olive' :
+                d == "4H" ? 'chocolate' :
+                d == "5A" ? 'brown' :
+                d == "5C" ? 'goldenrod' :
+                d == "5F" ? 'chocolate' :
+                d == "5H" ? 'bisque' :
+                d == "6A" ? 'darkslategray' :
+                d == "6B" ? 'pink' :
+                d == "6D" ? 'darkviolet' :
+                d == "6F" ? 'indigo' :
+                d == "6H" ? 'violet' :
+                d == "7B" ? '	navy' :
+                d == "7C" ? 'steelblue' :
+                d == "7D" ? '	lightseagreen' :
+                d == "FASE 2" ? 'aqua' :
+                d == "No és una OAC" ? 'aquamarine' :
+                            'black'; 
+            };
 
                function estilOperador (feature) {
                     return{
                          radius: 7,
                          fillColor: colorPerOperadors(feature.properties.Nom_operad), 
-                         color: colorPerOperadors(feature.properties.Nom_operad), 
+                         color: 'black',  
                          weight: 1,
                          opacity : 1,
                          fillOpacity : 0.8
                     };
                };
 
-               function colorPerOperador() {
+               function operadors() {
                     var select = document.getElementById("Operador").value; 
                     var capa = L.geoJSON(data, {
                                         pointToLayer: function (feature, latlng) {
@@ -258,6 +345,78 @@
                     grup.clearLayers();
                     grup.addLayer(capa);
                };
+               
+               function estilPoblacio (feature) {
+                    return{
+                         radius: 7,
+                         fillColor: colorPerPoblacio(feature.properties.Població_), 
+                         color: 'black', 
+                         weight: 1,
+                         opacity : 1,
+                         fillOpacity : 0.8
+                    };
+               };
+
+               function poblacio() {
+                    var select = document.getElementById("Població").value; 
+                    var capa = L.geoJSON(data, {
+                                        pointToLayer: function (feature, latlng) {
+                                                  return L.circleMarker(latlng, geojsonMarkerOptions);
+                                             },
+                                        filter: function(feature, layer) {
+                                                  if(select != "MOSTRA'LS TOTS" && select != ''){
+                                                       return (feature.properties.Població_ == select);
+                                                  }
+                                                  else if(select == ""){
+                                                       grup.clearLayers();
+                                                  }
+                                                  else{
+                                                       return true;
+                                                  }		
+                                        },	
+                                        style:estilPoblacio,
+                                        onEachFeature: popUpInfo	
+                                        })
+                    grup.clearLayers();
+                    grup.addLayer(capa);
+               };
+
+               function estilZona (feature) {
+                    return{
+                         radius: 7,
+                         fillColor: colorPerZona(feature.properties.Zona_OAC), 
+                         color: 'black', 
+                         weight: 1,
+                         opacity : 1,
+                         fillOpacity : 0.8
+                    };
+               };
+
+               function zones() {
+                    var select = document.getElementById("Zona_OAC").value; 
+                    var capa = L.geoJSON(data, {
+                                        pointToLayer: function (feature, latlng) {
+                                                  return L.circleMarker(latlng, geojsonMarkerOptions);
+                                             },
+                                        filter: function(feature, layer) {
+                                                  if(select != "MOSTRA'LS TOTS" && select != ''){
+                                                       return (feature.properties.Zona_OAC == select);
+                                                  }
+                                                  else if(select == ""){
+                                                       grup.clearLayers();
+                                                  }
+                                                  else{
+                                                       return true;
+                                                  }		
+                                        },	
+                                        style:estilZona,
+                                        onEachFeature: popUpInfo	
+                                        })
+                    grup.clearLayers();
+                    grup.addLayer(capa);
+               };
+
+              
           </script>
      </body>
 
