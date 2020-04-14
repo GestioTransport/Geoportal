@@ -28,6 +28,10 @@
                html, body, #mapid {
                     height: 100%;
                }
+	       .logo{
+                    width: 150px;
+                    text-align: center;
+               }
                
           </style> 
      </head>
@@ -178,6 +182,10 @@
                               <tr>
                               <th>Direcció:</th>
                               <td>${feature.properties.Direcció}</td>
+                              </tr>
+			      <tr>
+                              <th>Imatge:</th>
+                              <td><img class='logo' src = ${feature.properties.img}></td>
                               </tr>
                               </table>`;
 
