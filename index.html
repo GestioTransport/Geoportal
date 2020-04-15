@@ -370,6 +370,7 @@
                     var capa = L.geoJSON(data, {
                                         pointToLayer: function (feature, latlng) {
                                                   return L.circleMarker(latlng, geojsonMarkerOptions);
+                                                 
                                              },
                                         filter: function(feature, layer) {
                                                   if(select != "MOSTRA'LS TOTS" && select != ''){
@@ -387,6 +388,9 @@
                                         })
                     grup.clearLayers();
                     grup.addLayer(capa);
+
+                    var bounds = capa.getBounds(); 
+                    mymap.fitBounds(bounds)
                };
                
                function estilPoblacio (feature) {
@@ -422,6 +426,9 @@
                                         })
                     grup.clearLayers();
                     grup.addLayer(capa);
+
+                    var bounds = capa.getBounds(); 
+                    mymap.fitBounds(bounds)
                };
 
                function estilZona (feature) {
@@ -457,6 +464,9 @@
                                         })
                     grup.clearLayers();
                     grup.addLayer(capa);
+
+                    var bounds = capa.getBounds(); 
+                    mymap.fitBounds(bounds)
                };
 
               
