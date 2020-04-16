@@ -1,0 +1,347 @@
+<!doctype html>
+     <html lang="en">
+     <head>
+          <title>PROVA</title>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+           <!-- Bootstrap CSS -->
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+          <!-- Leaflet CSS -->
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+          <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+          <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+          <!-- Leaflet JS -->
+          <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+          <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+          <!-- easyButton -->
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+           <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+           
+          <!-- DADES -->
+          <script src="geojson.js" type="text/javascript"></script>
+
+          <style> 
+               body {
+                    padding: 0;
+                    margin: 0;
+                    }
+               html, body, #mapid {
+                    height: 100%;
+                    }
+	          .logo{
+                    width: 150px;
+                    text-align: center;
+                    padding: 10px;
+                    }
+               select{
+                    height: 30px;
+                    width: 200px;
+                    color: white;
+                    background-color: #5397cfec;
+                    margin-left: 10px;
+                    padding-left: 5px;
+                    border: none;
+               }
+               select:hover{
+                    background-color: #3b8fd3;
+               }
+                            
+               select:focus{
+                    color: #ffffff;
+                    background-color: #3b8fd3;
+                    box-shadow: 0 0 1px 3px rgba(206, 93, 1, 0.767);
+               }
+               .selector{
+                    position: absolute;
+                    z-index: 1000;
+                    text-align: center;
+                    margin-left: 40px;
+                    padding: 10px;  
+                }
+               .pop{
+                    text-align:center;
+               }   
+                   
+            .legend {
+                    padding: 6px 8px;
+                    font: 14px Arial, Helvetica, sans-serif;
+                    background: white;
+                    background: rgba(255, 255, 255, 0.8);
+                    line-height: 24px;
+                    color: #555;
+                    background: white;
+                    }
+            .legend h4 {
+                    text-align: center;
+                    font-size: 16px;
+                    margin: 2px 12px 8px;
+                    color: #777;
+                    }
+
+            .legend span {
+                    position: relative;
+                    bottom: 3px;
+                    }
+
+            .legend i {
+                    width: 18px;
+                    height: 18px;
+                    float: left;
+                    margin: 0 8px 0 0;
+                    opacity: 0.7;
+                    }
+
+          </style> 
+     </head>
+
+     <body>
+            
+          
+          <!-- CREEM EL PANELL DE SELECCIÓ -->
+
+          <div class="selector">
+               <select id="Població" onchange="poblacio()">
+                     <option hidden selected>Visualitza per Població</option>
+                    <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
+                    <script>
+                         var arr = new Array
+                         for(var i = 0; i < data.features.length; i++){
+                              arr.push(data.features[i].properties.poblacio)
+                         var unique = [...new Set(arr)];
+                         }
+                         for(var i = 0; i < unique.length; i++){
+                              var tag = document.createElement("option");
+                              var text = document.createTextNode(unique[i]);
+                              tag.appendChild(text);
+                              tag.value = unique[i];
+                              var element = document.getElementById("Població");
+                              element.appendChild(tag);
+                         }
+                    </script>
+               </select>
+               
+               
+               <select id="Operador" onchange="operadors()">
+                    <option hidden selected>Visualitza per Operador</option>
+                    <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
+                    <script>
+                         var arr = new Array
+                         for(var i = 0; i < data.features.length; i++){
+                              arr.push(data.features[i].properties.nom_operad)
+                         var unique = [...new Set(arr)];
+                         }
+                         for(var i = 0; i < unique.length; i++){
+                              var tag = document.createElement("option");
+                              var text = document.createTextNode(unique[i]);
+                              tag.appendChild(text);
+                              tag.value = unique[i];
+                              var element = document.getElementById("Operador");
+                              element.appendChild(tag);
+                         }
+                    </script>
+                     
+               </select>
+               
+          </div>	  
+
+          <div id="mapid"></div>
+          <script>
+
+               var mymap = L.map('mapid').setView([41.392264, 2.162247], 13);
+
+               var geojsonMarkerOptions = {
+                    radius: 8,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8     
+                    };
+               
+               var oficines =  L.geoJson(data, {
+               onEachFeature: popUpInfo,
+               pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+               }})
+
+               var osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                    maxZoom: 18,
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1
+               }).addTo(mymap);
+
+               var mapboxbasic = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    zIndex: 1
+               });
+
+               var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 18,
+                    zIndex: 3
+               });
+
+               var basemap = {
+                    'OSM': osm,
+                    'Streets': mapboxbasic,
+                    'ESRI Imagery': Esri_WorldImagery
+               };
+
+               var overlayMaps = {
+                    'OFICINES':oficines
+               };
+
+               L.control.layers(basemap, overlayMaps).addTo(mymap);
+               L.control.scale().addTo(mymap);
+               //L.Control.geocoder().addTo(mymap);
+               var grup = L.layerGroup().addTo(mymap);
+
+               var home = {
+                   lat: 41.392264,
+                   lng: 2.162247,
+                   zoom: 13
+               };       
+                
+               L.easyButton('fa-home',function(btn, mymap){
+                mymap.setView([home.lat, home.lng], home.zoom);
+                },'Zoom To Home').addTo(mymap);
+
+                // llegenda
+                var legend = L.control({ position: "bottomright" });
+
+                legend.onAdd = function(mymap) {
+                var div = L.DomUtil.create("div", "legend");
+                div.innerHTML += "<h4>Llegenda</h4>";
+                div.innerHTML += '<i style="background: red"></i><span>A</span><br>';
+                div.innerHTML += '<i style="background: green"></i><span>S</span><br>';
+                div.innerHTML += '<i style="background: blue"></i><span>D</span><br>';
+                div.innerHTML += '<i style="background: yellow"></i><span>F</span><br>';
+
+                return div;
+                };
+
+                legend.addTo(mymap);
+
+               function popUpInfo(feature, layer) {
+                    
+                    const popupContent = 
+                              `<table>
+                              <tr>
+                              <th>Operador:</th>
+                              <td>${feature.properties.nom_operad}</td>
+                              </tr>
+                              <tr>
+                              <th>Horaris d'Atenció:</th>
+                              <td>${feature.properties.horari}</td>
+                              </tr>
+                              <tr>
+                              <th>Direcció:</th>
+                              <td>${feature.properties.direccio}</td>
+                              </tr>
+			               <tr>
+                              <th>Imatge:   </th>
+                              <td class='pop'><img class='logo' src = ${feature.properties.img}></td>
+                              </tr>
+                              <tr>
+                              <th>URL:</th>
+                              <td><a class="btn btn-info" style="color:white; font-size:12px; height: 28px;" target="_blank" href= ${feature.properties.url} role="button"> Ves al web de l'Operador</p></td>
+                              </tr>
+                              </table>`;
+
+                         if (feature.properties) {
+                              layer.bindPopup(popupContent);
+                              layer.bindTooltip(feature.properties.nom_operad, {closeButton: false, offset: L.point(0, -20)});
+                         }
+               }
+
+               function colorPerTipus(d) { 
+					return d == "a" ? 'red' : 
+					d == "s" ? 'green' : 
+					d == "d" ? 'blue' : 
+					d == "f" ? 'yellow' :
+                   
+                        'black'; 
+               };
+
+          
+               function estil (feature) {
+                    return{
+                         radius: 7,
+                         fillColor: colorPerTipus(feature.properties.servei), 
+                         color: 'black',  
+                         weight: 1,
+                         opacity : 1,
+                         fillOpacity : 0.8
+                    };
+               };
+
+               function operadors() {
+                    var select = document.getElementById("Operador").value; 
+                    self.capa = L.geoJSON(data, {
+                                        pointToLayer: function (feature, latlng) {
+                                                  return L.circleMarker(latlng, geojsonMarkerOptions);
+                                                 
+                                             },
+                                        filter: function(feature, layer) {
+                                                  if(select != "MOSTRA'LS TOTS" && select != ''){
+                                                       return (feature.properties.nom_operad == select);
+                                                  }
+                                                  else if(select == ""){
+                                                       grup.clearLayers();
+                                                  }
+                                                  else{
+                                                       return true;
+                                                  }		
+                                        },	
+                                        style:estil,
+                                        onEachFeature: popUpInfo	
+                                        })
+                    grup.clearLayers();
+                    grup.addLayer(self.capa);
+
+                    var bounds = self.capa.getBounds(); 
+                    mymap.fitBounds(bounds)
+               };
+               
+              
+
+               function poblacio() {
+                    var select = document.getElementById("Població").value; 
+                    var capa = L.geoJSON(data, {
+                                        pointToLayer: function (feature, latlng) {
+                                                  return L.circleMarker(latlng, geojsonMarkerOptions);
+                                             },
+                                        filter: function(feature, layer) {
+                                                  if(select != "MOSTRA'LS TOTS" && select != ''){
+                                                       return (feature.properties.poblacio == select);
+                                                  }
+                                                  else if(select == ""){
+                                                       grup.clearLayers();
+                                                  }
+                                                  else{
+                                                       return true;
+                                                  }		
+                                        },	
+                                        style:estil,
+                                        onEachFeature: popUpInfo	
+                                        })
+                    grup.clearLayers();
+                    grup.addLayer(capa);
+
+                    var bounds = capa.getBounds(); 
+                    mymap.fitBounds(bounds)
+               };
+
+                    
+          </script>
+     </body>
+
+</html>
