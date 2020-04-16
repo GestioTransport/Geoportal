@@ -1,5 +1,5 @@
 <!doctype html>
-     <html lang="es">
+     <html lang="en">
      <head>
           <title>PROVA</title>
           <meta charset="utf-8" />
@@ -17,10 +17,11 @@
           <!-- Leaflet JS -->
           <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
           <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-           <!-- easyButton -->
+          <!-- easyButton -->
            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
            <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+           
           <!-- DADES -->
           <script src="geojson.js" type="text/javascript"></script>
 
@@ -28,47 +29,62 @@
                body {
                     padding: 0;
                     margin: 0;
-               }
+                    }
                html, body, #mapid {
                     height: 100%;
-               }
+                    }
 	          .logo{
                     width: 150px;
-                    padding: 5px;
-               }
+                    text-align: center;
+                    padding: 10px;
+                    }
                select{
                     height: 30px;
                     width: 200px;
                     color: white;
-                    background-color: #5397cfec;
+                    background-color: #3b8fd3f5;
                     margin-left: 10px;
                     padding-left: 5px;
                     border: none;
-               }
-               select:hover{
-                    background-color: #3b8fd3;
-               }
-               
-             
-               select:focus{
-                    color: #ffffff;
-                    background-color: #3b8fd3;
-                    box-shadow: 0 0 1px 3px rgba(206, 93, 1, 0.767);
-                  
-               }
-               
-               .selector{
+                    }
+            .selector{
                     position: absolute;
                     z-index: 1000;
                     text-align: center;
                     margin-left: 40px;
                     padding: 10px;
                     
-               }    
-               .pop{
-                    text-align:center;
-               }    
-               
+                }
+                   
+            .legend {
+                    padding: 6px 8px;
+                    font: 14px Arial, Helvetica, sans-serif;
+                    background: white;
+                    background: rgba(255, 255, 255, 0.8);
+                    line-height: 24px;
+                    color: #555;
+                    background: white;
+                    }
+            .legend h4 {
+                    text-align: center;
+                    font-size: 16px;
+                    margin: 2px 12px 8px;
+                    color: #777;
+                    }
+
+            .legend span {
+                    position: relative;
+                    bottom: 3px;
+                    }
+
+            .legend i {
+                    width: 18px;
+                    height: 18px;
+                    float: left;
+                    margin: 0 8px 0 0;
+                    opacity: 0.7;
+                    }
+
           </style> 
      </head>
 
@@ -79,12 +95,13 @@
 
           <div class="selector">
                <select id="Població" onchange="poblacio()">
-                    <option hidden selected>Visualitza per Població</option>
+                    <option>Visualitza per Població</option>
+                    <option value="NETEJA"></option>
                     <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
                     <script>
                          var arr = new Array
                          for(var i = 0; i < data.features.length; i++){
-                              arr.push(data.features[i].properties.Població_)
+                              arr.push(data.features[i].properties.poblacio)
                          var unique = [...new Set(arr)];
                          }
                          for(var i = 0; i < unique.length; i++){
@@ -100,12 +117,13 @@
                
                
                <select id="Operador" onchange="operadors()">
-                    <option hidden selected>Visualitza per Operador</option>
+                    <option>Visualitza per Operador</option>
+                    <option value="NETEJA"></option>
                     <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
                     <script>
                          var arr = new Array
                          for(var i = 0; i < data.features.length; i++){
-                              arr.push(data.features[i].properties.Nom_operad)
+                              arr.push(data.features[i].properties.nom_operad)
                          var unique = [...new Set(arr)];
                          }
                          for(var i = 0; i < unique.length; i++){
@@ -120,31 +138,9 @@
                      
                </select>
                
-               <select id="Zona_OAC" onchange = "zones()">
-                   
-                    <option hidden selected>Visualitza per Zona OAC</option>
-                    <option value="MOSTRA'LS TOTS">MOSTRA'LS TOTS</option>
-                    <script>
-                         var arr = new Array
-                         for(var i = 0; i < data.features.length; i++){
-                              arr.push(data.features[i].properties.Zona_OAC)
-                         var unique = [...new Set(arr)];
-                         }
-                         for(var i = 0; i < unique.length; i++){
-                              var tag = document.createElement("option");
-                              var text = document.createTextNode(unique[i]);
-                              tag.appendChild(text);
-                              tag.value = unique[i];
-                              var element = document.getElementById("Zona_OAC");
-                              element.appendChild(tag);
-                         }
-                    </script>
-               </select>
           </div>	  
 
           <div id="mapid"></div>
-          
-
           <script>
 
                var mymap = L.map('mapid').setView([41.392264, 2.162247], 13);
@@ -196,7 +192,7 @@
 
                L.control.layers(basemap, overlayMaps).addTo(mymap);
                L.control.scale().addTo(mymap);
-               L.Control.geocoder().addTo(mymap);
+               //L.Control.geocoder().addTo(mymap);
                var grup = L.layerGroup().addTo(mymap);
 
                var home = {
@@ -208,10 +204,22 @@
                L.easyButton('fa-home',function(btn, mymap){
                 mymap.setView([home.lat, home.lng], home.zoom);
                 },'Zoom To Home').addTo(mymap);
-                
-              
-               
-       
+
+                // llegenda
+                var legend = L.control({ position: "bottomright" });
+
+                legend.onAdd = function(mymap) {
+                var div = L.DomUtil.create("div", "legend");
+                div.innerHTML += "<h4>Llegenda</h4>";
+                div.innerHTML += '<i style="background: red"></i><span>A</span><br>';
+                div.innerHTML += '<i style="background: green"></i><span>S</span><br>';
+                div.innerHTML += '<i style="background: blue"></i><span>D</span><br>';
+                div.innerHTML += '<i style="background: yellow"></i><span>F</span><br>';
+
+                return div;
+                };
+
+                legend.addTo(mymap);
 
                function popUpInfo(feature, layer) {
                     
@@ -219,162 +227,46 @@
                               `<table>
                               <tr>
                               <th>Operador:</th>
-                              <td class='pop'>${feature.properties.Nom_operad}</td>
+                              <td>${feature.properties.nom_operad}</td>
                               </tr>
                               <tr>
-                              <th>Zona OAC:</th>
-                              <td class='pop'>${feature.properties.Zona_OAC}</td>
+                              <th>Horaris d'Atenció:</th>
+                              <td>${feature.properties.horari}</td>
                               </tr>
                               <tr>
                               <th>Direcció:</th>
-                              <td class='pop'>${feature.properties.Direcció}</td>
+                              <td>${feature.properties.direccio}</td>
                               </tr>
 			               <tr>
-                              <th>Imatge:   </th>
-                              <td class='pop'><img class='logo' src = ${feature.properties.img}></td>
+                              <th>Imatge:</th>
+                              <td><img class='logo' src = ${feature.properties.img}></td>
                               </tr>
                               <tr>
                               <th>URL:</th>
-                              <td class='pop'><a class="btn btn-info btn-sm" style="color:white; font-size:12px; height: 28px;" target="_blank" href= ${feature.properties.url} role="button"> Ves al web de l'Operador</p></td>
+                              <td><a class="btn btn-info" style="color:white; font-size:14px; height: 34px;" target="_blank" href= ${feature.properties.url} role="button"> Ves al web de l'Operador</p></td>
                               </tr>
                               </table>`;
 
                          if (feature.properties) {
                               layer.bindPopup(popupContent);
-                              layer.bindTooltip(feature.properties.Nom_operad, {closeButton: false, offset: L.point(0, -20)});
+                              layer.bindTooltip(feature.properties.nom_operad, {closeButton: false, offset: L.point(0, -20)});
                          }
                }
 
-               function colorPerOperador(d) { 
-				return d == "Transports Mir" ? '#ee741b' : 
-	d == "TUS" ? '#008039' : 
-	d == "TEISA-Hispano Hilarienca" ? '#ec1b2e' : 
-	d == "Autocars Vendrell" ? '#a50b17' :
-        d == "Monbús" ? '#20244a' :
-        d == "Tusgsal" ? '#f6d702' :
-        d == "Transports Pujol i Pujol" ? '#c12064' :
-        d == "TRAM" ? '#008c7f' : 
-        d == "Tmesa" ? '#c0143c' :
-        d == "TMB" ? '#e30811' :
-        d == "TCC-Authosa" ? '#e11d1e' :
-        d == "Soler i sauret, Molins Bus, SantVi bus, ValldoreixBus" ? '#4d8933' :
-        d == "Sarbus" ? '#e9691e' :
-        d == "Renfe" ? '#700056' :
-        d == "Martí Colomer" ? '#e90401' :
-        d == "Jordi Comasòlivas" ? '#1f8958' :
-        d == "Hispano Llacunense" ? '#a78f47' :
-        d == "Hispano Igualadina Monbus-Paral lel el Port UTE" ? '#4e5d7e' :
-        d == "Grup TGO-Masats Transports Generals-Autos Castellbisbal" ? '#0d2c7f' :
-        d == "Grup Sagales" ? '#26319b' :
-        d == "Germans Montferri" ? '#e52817' :
-        d == "FGC" ? '#93d500' :
-	d == "Casas" ? '#e9691e' :
-	d == "Empresa Plana" ? '#335793' :			
-        d == "CTSA - Mataró Bus i Rubi bus" ? '#e40520' :
-        d == "CENTRE T-MOBILITAT" ? '#019482' :
-        d == "Bus Castellví" ? '#122083' :
-        d == "Baixbus" ? '#e95609' :
-        d == "Autocorb" ? '#122e68' :
-        d == "Autocars Rovira" ? '#fec200' :
-        d == "Autocars R.Font" ? '#f0e905' :
-        d == "Autocars Prat" ? '#a2c507' :
-        d == "Autocars Julià" ? '#019b5d' :
-        d == "AMB" ? '#e31d1a' :
-        d == "Alsina Graells/ALSA" ? '#a80402' :
-                  'black'; 
-               };
-
-               function colorPerPoblacio (d) {
-              
-                    return d == "Arenys de Munt" ? '#ABD71E' : 
-					d == "Badalona" ? 'maroon' : 
-					d == "Banyoles" ? 'springgreen' : 
-					d == "Barcelona" ? 'palegreen' :
-                    d == "Barcelona - El clot" ? 'navajowhite' :
-                    d == "Barcelona - La Sagrera" ? 'sandybrown' :
-                    d == "Barcelona - Passeig de Gràcia" ? 'silver' :
-                    d == "Berga" ? 'antiquewhite' :
-                    d == "Blanes" ? 'deeppink' : 
-                    d == "Calafell" ? 'fuchsia' :
-                    d == "Caldes de Montbui" ? 'lime' :
-                    d == "Camprodon" ? 'olive' :
-                    d == "Capellades" ? 'chocolate' :
-                    d == "Castellbisbal" ? 'brown' :
-                    d == "Cerdanyola" ? 'goldenrod' :
-                    d == "Corbera" ? 'chocolate' :
-                    d == "Gavà" ? 'bisque' :
-                    d == "Girona" ? 'darkslategray' :
-                    d == "Granollers" ? 'pink' :
-                    d == "L'Hospitalet de Llobregat" ? 'darkviolet' :
-                    d == "Igualada" ? 'indigo' :
-                    d == "Les Masies de Voltregà" ? 'violet' :
-                    d == "Lloret de Mar" ? '	navy' :
-                    d == "Malgrat de Mar" ? 'steelblue' :
-                    d == "Manresa" ? '	lightseagreen' :
-                    d == "Martorell" ? 'aqua' :
-                    d == "Mataró" ? 'aquamarine' :
-                    d == "Mollet del Vallès" ? 'red' :
-                    d == "Olesa de montserrat" ? 'orange' :
-                    d == "Olot" ? 'yellow' :
-                    d == "Ripoll" ? 'green' :
-                    d == "Ripollet" ? 'blue' :
-                    d == "Rubí" ? 'gray' :
-                    d == "Sabadell" ? 'grey' :
-                    d == "Sant Adrià de Besòs" ? '#0B0582' :
-                    d == "Sant Celoni" ? '#4C488D' :
-                    d == "Sant Feliu de Llobregat" ? '#1EC1B6' :
-                    d == "Sant Joan Despí" ? '#67AD6D' :
-                    d == "Sant Pere de Ribes" ? '#ABD71E' :
-                    d == "Sant Sadurní d'Anoia" ? '#D77D1E' :
-                    d == "Sant Vicenç de Calders" ? '#5A7D4C' :
-                    d == "Santa Margarida i els Monjos" ? '#8B64CA' :
-                    d == "Taradell" ? '#8F2359' :
-                    d == "Terrassa" ? '#AA6B6B' :
-                    d == "Vic" ? '#23ACD5' :
-                    d == "Viladecans" ? '#86C184' :
-                    d == "Vilafranca del Penedès" ? '#1A6370' :
-                    d == "Vilanova i la Geltrú" ? '#8CCC22' :
+               function colorPerTipus(d) { 
+					return d == "a" ? 'red' : 
+					d == "s" ? 'green' : 
+					d == "d" ? 'blue' : 
+					d == "f" ? 'yellow' :
+                   
                         'black'; 
- 
                };
 
-            function colorPerZona (d) {
           
-                return d == "-" ? '#8CCC22' :
-                d == "1" ? 'pink' :
-                d == "2B" ? 'maroon' : 
-                d == "2C" ? 'springgreen' : 
-                d == "2D" ? 'palegreen' :
-                d == "3A - El clot" ? 'navajowhite' :
-                d == "3B - La Sagrera" ? 'sandybrown' :
-                d == "3C - Passeig de Gràcia" ? 'silver' :
-                d == "3D" ? 'antiquewhite' :
-                d == "3E" ? 'deeppink' : 
-                d == "4A" ? 'fuchsia' :
-                d == "4B" ? 'lime' :
-                d == "4G" ? 'olive' :
-                d == "4H" ? 'chocolate' :
-                d == "5A" ? 'brown' :
-                d == "5C" ? 'goldenrod' :
-                d == "5F" ? 'chocolate' :
-                d == "5H" ? 'bisque' :
-                d == "6A" ? 'darkslategray' :
-                d == "6B" ? 'pink' :
-                d == "6D" ? 'darkviolet' :
-                d == "6F" ? 'indigo' :
-                d == "6H" ? 'violet' :
-                d == "7B" ? '	navy' :
-                d == "7C" ? 'steelblue' :
-                d == "7D" ? '	lightseagreen' :
-                d == "FASE 2" ? 'aqua' :
-                d == "No és una OAC" ? 'aquamarine' :
-                            'black'; 
-            };
-
-               function estilOperador (feature) {
+               function estil (feature) {
                     return{
                          radius: 7,
-                         fillColor: colorPerOperador(feature.properties.Nom_operad), 
+                         fillColor: colorPerTipus(feature.properties.servei), 
                          color: 'black',  
                          weight: 1,
                          opacity : 1,
@@ -384,14 +276,14 @@
 
                function operadors() {
                     var select = document.getElementById("Operador").value; 
-                    var capa = L.geoJSON(data, {
+                    self.capa = L.geoJSON(data, {
                                         pointToLayer: function (feature, latlng) {
                                                   return L.circleMarker(latlng, geojsonMarkerOptions);
                                                  
                                              },
                                         filter: function(feature, layer) {
                                                   if(select != "MOSTRA'LS TOTS" && select != ''){
-                                                       return (feature.properties.Nom_operad == select);
+                                                       return (feature.properties.nom_operad == select);
                                                   }
                                                   else if(select == ""){
                                                        grup.clearLayers();
@@ -400,26 +292,17 @@
                                                        return true;
                                                   }		
                                         },	
-                                        style:estilOperador,
+                                        style:estil,
                                         onEachFeature: popUpInfo	
                                         })
                     grup.clearLayers();
-                    grup.addLayer(capa);
+                    grup.addLayer(self.capa);
 
-                    var bounds = capa.getBounds(); 
+                    var bounds = self.capa.getBounds(); 
                     mymap.fitBounds(bounds)
                };
                
-               function estilPoblacio (feature) {
-                    return{
-                         radius: 7,
-                         fillColor: colorPerPoblacio(feature.properties.Població_), 
-                         color: 'black', 
-                         weight: 1,
-                         opacity : 1,
-                         fillOpacity : 0.8
-                    };
-               };
+              
 
                function poblacio() {
                     var select = document.getElementById("Població").value; 
@@ -429,7 +312,7 @@
                                              },
                                         filter: function(feature, layer) {
                                                   if(select != "MOSTRA'LS TOTS" && select != ''){
-                                                       return (feature.properties.Població_ == select);
+                                                       return (feature.properties.poblacio == select);
                                                   }
                                                   else if(select == ""){
                                                        grup.clearLayers();
@@ -438,7 +321,7 @@
                                                        return true;
                                                   }		
                                         },	
-                                        style:estilPoblacio,
+                                        style:estil,
                                         onEachFeature: popUpInfo	
                                         })
                     grup.clearLayers();
@@ -448,45 +331,7 @@
                     mymap.fitBounds(bounds)
                };
 
-               function estilZona (feature) {
-                    return{
-                         radius: 7,
-                         fillColor: colorPerZona(feature.properties.Zona_OAC), 
-                         color: 'black', 
-                         weight: 1,
-                         opacity : 1,
-                         fillOpacity : 0.8
-                    };
-               };
-
-               function zones() {
-                    var select = document.getElementById("Zona_OAC").value; 
-                    var capa = L.geoJSON(data, {
-                                        pointToLayer: function (feature, latlng) {
-                                                  return L.circleMarker(latlng, geojsonMarkerOptions);
-                                             },
-                                        filter: function(feature, layer) {
-                                                  if(select != "MOSTRA'LS TOTS" && select != ''){
-                                                       return (feature.properties.Zona_OAC == select);
-                                                  }
-                                                  else if(select == ""){
-                                                       grup.clearLayers();
-                                                  }
-                                                  else{
-                                                       return true;
-                                                  }		
-                                        },	
-                                        style:estilZona,
-                                        onEachFeature: popUpInfo	
-                                        })
-                    grup.clearLayers();
-                    grup.addLayer(capa);
-
-                    var bounds = capa.getBounds(); 
-                    mymap.fitBounds(bounds)
-               };
-
-              
+                    
           </script>
      </body>
 
