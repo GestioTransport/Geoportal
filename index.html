@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
-     <title>PROVA</title>
+     <title>Visor d'OAC's</title>
      <meta charset="utf-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -144,6 +144,12 @@
                line-height: 36px;
 
           }
+	  .poptitle{
+               font-size: 18px;
+               font-weight: bolder;
+               text-align: center;
+              
+          }
      </style>
 </head>
 
@@ -284,13 +290,12 @@
           function popUpInfo(feature, layer) {
 
                const popupContent =
-                    `<table>
+                   `<table>
                               <tr>
-                              <th>Operador:</th>
-                              <td>${feature.properties.nom_operad}</td>
+                              <p class='poptitle'>${feature.properties.nom_operad}</p>
                               </tr>
                               <tr>
-                              <th>Horaris d'Atenció:</th>
+                              <th>Horaris d'Atenció:        </th>
                               <td>${feature.properties.horari}</td>
                               </tr>
                               <tr>
