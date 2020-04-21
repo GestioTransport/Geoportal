@@ -35,12 +35,11 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!--Geocoder -->
-    
 	<script src="https://rawgit.com/k4r573n/leaflet-control-osm-geocoder/master/Control.OSMGeocoder.js"></script>
-	<link rel="stylesheet" href="https://rawgit.com/k4r573n/leaflet-control-osm-geocoder/master/Control.OSMGeocoder.css" />
+    <link rel="stylesheet" href="https://rawgit.com/k4r573n/leaflet-control-osm-geocoder/master/Control.OSMGeocoder.css" />
 
-     <!-- DADES -->
-     <script src="geojson.js" type="text/javascript"></script>
+    <!-- DADES -->
+    <script src="geojson.js" type="text/javascript"></script>
 
      <style>
           body {
@@ -293,36 +292,28 @@
 
           L.control.layers(basemap, overlayMaps).addTo(mymap);
           L.control.scale().addTo(mymap);
-          //L.Control.geocoder().addTo(mymap);
           var grup = L.layerGroup().addTo(mymap);
           
                 
-        // create geocode error box element
+        //creem caixa d'error
         var geocodeErEl = document.createElement('div');
         geocodeErEl.setAttribute('id', 'geocodeError');
             
-        // create close button for error box
+        //botó d tancar
         var geocoderErCloseEl = document.createElement('input');
         geocoderErCloseEl.setAttribute('id','errorCloseBtn');
         geocoderErCloseEl.setAttribute('type','button');
         geocoderErCloseEl.setAttribute('value', 'X');
             
-        // create paragraph element to contain error text
+        //text error
         var geocodeErTextEl = document.createElement('p');
         geocodeErTextEl.setAttribute('id','errorText');
             
-        // append elements to geocode error div
+        
         jQuery(geocodeErEl).append(geocoderErCloseEl);
         jQuery(geocodeErEl).append(geocodeErTextEl);
-                
-        // append elememnts to map
         jQuery('#mapid').append(geocodeErEl);
 
-
-        // container for address search results
-        var addressSearchResults = new L.LayerGroup().addTo(mymap);
-
-        /*** Geocoder ***/
         // OSM Geocoder
         var osmGeocoder = new L.Control.OSMGeocoder({
             collapsed: true,
@@ -330,7 +321,7 @@
             text: 'Cerca',
             placeholder: 'direcció',    
             callback: function(results) {
-            // error box element
+            
             var geocodeErrorBox = jQuery('#geocodeError');
             var geocodeErrorText = jQuery('#errorText');
             
@@ -348,34 +339,16 @@
                 geocodeErrorBox.show();
                 return;
 			}
-            
-            // clear previous geocode results
-            addressSearchResults.clearLayers();
-            
-            // create icon for result
-            var addressSearchIcon = L.AwesomeMarkers.icon({
-                icon: 'map',
-                prefix: 'fa',
-                markerColor: 'orange',
-                iconColor: '#fff'
-             });
-            
+        
             // get coordinates for result
             var coords = L.latLng(results[0].lat,results[0].lon);
-        
-            // create a marker for result
-            var marker = L.marker(coords, {
-                icon: addressSearchIcon
-            });
-            
-            // add result object to map and zoom to 
-            addressSearchResults.addLayer(marker);            
-            this._map.addLayer(marker).setView(coords,17);  
+                
+            mymap.setView(coords,17);  
             
             // open pop-up for location
             var popup = L.popup({closeOnClick: true}).setLatLng(coords).setContent(results[0].display_name).openOn(mymap);
         }
-    }).addTo(mymap);    
+            }).addTo(mymap);    
 
             // add event listener to click event for error message close button
             jQuery('#errorCloseBtn').click(function() {
